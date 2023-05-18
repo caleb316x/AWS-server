@@ -100,4 +100,4 @@ if __name__ == '__main__':
     # Define the folder to store uploaded images
     UPLOAD_FOLDER = 'uploads'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.run(host='192.168.254.105', port=80,debug=True)
+    app.run(host='192.168.201.232', port=80,debug=True)

@@ -32,8 +32,9 @@ class AWS:
 
         # Replace this with the path to your image
         # imgdata = requests.get("https://hbw.ph/wp-content/uploads/2017/10/hbw-scissors-SP19006B-300x300.jpg", stream=True).raw
-        # imgdata = requests.get("https://songbangplastic.com.vn/upload/products/102670855691.jpg", stream=True).raw
-        image = Image.open(path_image).convert("RGB")
+        imgdata = requests.get("http://192.168.201.160/image", stream=True).raw
+        image = Image.open(imgdata).convert("RGB")
+        # image = Image.open(path_image).convert("RGB")
 
         # resizing the image to be at least 224x224 and then cropping from the center
         size = (224, 224)
