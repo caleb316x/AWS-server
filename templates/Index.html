@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AWS Dashboard</title>
+    {{ bootstrap.load_css() }}
+    <style>
+        .view-display {
+            padding-left: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="p-5 bg-primary text-white text-center">
+        <h1>Automated Waste Segregator</h1>
+        <p>Dashboard</p>
+    </div>
+
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">Home</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container md-5">
+        <div class="row">
+            <div class="col-md-4">
+                <br>
+                <h2>AWS List</h2>
+                <div>
+                    {% for d in data %}
+                        {% if binfull %}
+                            <button class="btn btn-danger" href="#" onclick="fetchData('{{d[1]}}')">AWS #{{d[1]}}</button>
+                        {% else %}
+                            <button class="btn btn-primary" href="#" onclick="fetchData('{{d[1]}}')">AWS #{{d[1]}}</button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li> -->
+
+                <hr class="d-md-none">
+            </div>
+            <div class="col-md-8">
+                <br>
+                <div id = "cardelem" class = "d-none">
+                    <div class="card">
+                        <div class="card-header card-info">Status</div>
+                        <div class="card-body">
+                            <h5>AWS #<span id = "awsid"></span></h5>
+                            <div class="view-display">
+                                <p>Plastic: <span id = "plastic"></span>%</p>
+                                <p>Paper: <span id = "paper"></span>%</p>
+                                <p>Metal: <span id = "metal"></span>%</p>
+                                <p>Waste: <span id = "waste"></span>%</p>
+                                <hr>
+                                <p>Battery: <span id = "battery"></span>%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <div class="mt-5 p-4 bg-dark text-white text-center">
+        <p>Footer</p>
+    </div> -->
+
+    {{ bootstrap.load_js() }}
+</body>
+
+<script>
+    function fetchData(id) {
+        fetch("http://192.168.254.105/awsget/" + id)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(d => {
+                data = d[0];
+                console.log(data)
+                document.getElementById("awsid").innerHTML = data[1];
+                document.getElementById("plastic").innerHTML = data[2];
+                document.getElementById("paper").innerHTML = data[3];
+                document.getElementById("metal").innerHTML = data[4];
+                document.getElementById("waste").innerHTML = data[5];
+                document.getElementById("battery").innerHTML = data[6];
+                document.getElementById("cardelem").className = "d-block";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+
+</script>
+
+</html>
